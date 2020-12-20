@@ -816,9 +816,8 @@ BLASTER / HYPERBLASTER
 void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, int effect)
 {
 	vec3_t	forward, right;
+	vec3_t  forward_right, forward_left;
 	vec3_t	start;
-	vec3_t  start2;
-	vec3_t  start3;
 	vec3_t	offset;
 
 	if (is_quad)
@@ -830,8 +829,20 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 
 	VectorScale (forward, -2, ent->client->kick_origin);
 	ent->client->kick_angles[0] = -1;
-
-	fire_blaster(ent, start, forward, damage, 1000, effect, hyper);
+	if (hyper)
+	{
+		fire_blaster(ent, start, forward, damage, 1000, effect, hyper);
+		forward_right[0] = 0.985*forward[0] - 0.174*forward[1];
+		forward_right[1] = 0.174*forward[0] + 0.985*forward[1];
+		forward_right[2] = forward[2];
+		fire_blaster(ent, start, forward_right, damage, 1000, effect, hyper);
+		forward_left[0] = 0.985*forward[0] + 0.174*forward[1];
+		forward_left[1] = -0.174*forward[0] + 0.985*forward[1];
+		forward_left[2] = forward[2];
+		fire_blaster(ent, start, forward_left, damage, 1000, effect, hyper);
+	}
+	else
+		fire_blaster(ent, start, forward, damage, 1000, effect, hyper);
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
@@ -854,7 +865,7 @@ void Weapon_Blaster_Fire (edict_t *ent)
 		damage = 15;
 	else
 		damage = 10;
-	Blaster_Fire (ent, vec3_origin, damage, false, EF_BLASTER);
+	Blaster_Fire (ent, vec3_origin, damage, false, EF_GRENADE);
 	ent->client->ps.gunframe++;
 }
 
@@ -899,7 +910,7 @@ void Weapon_HyperBlaster_Fire (edict_t *ent)
 			offset[2] = 4 * cos(rotation);
 
 			if ((ent->client->ps.gunframe == 6) || (ent->client->ps.gunframe == 9))
-				effect = EF_HYPERBLASTER;
+				effect = EF_GRENADE;
 			else
 				effect = 0;
 			if (deathmatch->value)
