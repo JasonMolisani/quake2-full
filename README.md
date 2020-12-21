@@ -25,11 +25,11 @@ The weapons in here have been changed to imitate fantasy weapons and spells
 1. Blaster -> CrossBow
 2. Shotgun -> Flame blast
 3. Super Shotgun -> Flame wave
-4. Machine Gun
-5. Chain Gun
+4. Machine Gun -> Lava spray
+5. Chain Gun -> Lightning spray
 6. Grenade Launcher -> Summon monster
 7. Rocket Launcher -> Fireball
 8. HyperBlaster -> Triple Crossbow
-9. Rail Gun -> Dispel
+9. Rail Gun -> Dispel (TBD)
 10. BFG10K -> Unchanged? (not on map?)
 11. Grenades -> different buffs?
