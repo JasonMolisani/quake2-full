@@ -52,7 +52,8 @@ void SP_func_explosive (edict_t *self);
 void SP_func_timer (edict_t *self);
 void SP_func_areaportal (edict_t *ent);
 void SP_func_clock (edict_t *ent);
-void SP_func_killbox (edict_t *ent);
+void SP_func_killbox(edict_t *ent);
+void SP_func_hill(edict_t *ent);
 
 void SP_trigger_always (edict_t *ent);
 void SP_trigger_once (edict_t *ent);
@@ -170,8 +171,9 @@ spawn_t	spawns[] = {
 	{"func_wall", SP_func_wall},
 	{"func_object", SP_func_object},
 	{"func_timer", SP_func_timer},
-	{"func_explosive", SP_func_explosive},
-	{"func_killbox", SP_func_killbox},
+	{ "func_explosive", SP_func_explosive },
+	{ "func_killbox", SP_func_killbox },
+	{ "func_hill", SP_func_hill },
 
 	{"trigger_always", SP_trigger_always},
 	{"trigger_once", SP_trigger_once},

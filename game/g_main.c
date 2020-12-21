@@ -304,7 +304,7 @@ void CheckDMRules (void)
 
 			if (cl->resp.score >= fraglimit->value)
 			{
-				gi.bprintf (PRINT_HIGH, "Fraglimit hit.\n");
+				gi.bprintf (PRINT_HIGH, "King of the Hill time reached.\n");
 				EndDMLevel ();
 				return;
 			}

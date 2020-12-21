@@ -304,8 +304,8 @@ void ClientObituary (edict_t *self, edict_t *inflictor, edict_t *attacker)
 		if (message)
 		{
 			gi.bprintf (PRINT_MEDIUM, "%s %s.\n", self->client->pers.netname, message);
-			if (deathmatch->value)
-				self->client->resp.score--;
+			//if (deathmatch->value)
+			//	self->client->resp.score--;
 			self->enemy = NULL;
 			return;
 		}
@@ -387,21 +387,21 @@ void ClientObituary (edict_t *self, edict_t *inflictor, edict_t *attacker)
 			if (message)
 			{
 				gi.bprintf (PRINT_MEDIUM,"%s %s %s%s\n", self->client->pers.netname, message, attacker->client->pers.netname, message2);
-				if (deathmatch->value)
-				{
-					if (ff)
-						attacker->client->resp.score--;
-					else
-						attacker->client->resp.score++;
-				}
+				//if (deathmatch->value)
+				//{
+				//	if (ff)
+				//		attacker->client->resp.score--;
+				//	else
+				//		attacker->client->resp.score++;
+				//}
 				return;
 			}
 		}
 	}
 
 	gi.bprintf (PRINT_MEDIUM,"%s died.\n", self->client->pers.netname);
-	if (deathmatch->value)
-		self->client->resp.score--;
+	//if (deathmatch->value)
+	//	self->client->resp.score--;
 }
 
 
@@ -660,8 +660,8 @@ void SaveClientData (void)
 		game.clients[i].pers.health = ent->health;
 		game.clients[i].pers.max_health = ent->max_health;
 		game.clients[i].pers.savedFlags = (ent->flags & (FL_GODMODE|FL_NOTARGET|FL_POWER_ARMOR));
-		if (coop->value)
-			game.clients[i].pers.score = ent->client->resp.score;
+		//if (coop->value)
+		//	game.clients[i].pers.score = ent->client->resp.score;
 	}
 }
 
@@ -670,8 +670,8 @@ void FetchClientEntData (edict_t *ent)
 	ent->health = ent->client->pers.health;
 	ent->max_health = ent->client->pers.max_health;
 	ent->flags |= ent->client->pers.savedFlags;
-	if (coop->value)
-		ent->client->resp.score = ent->client->pers.score;
+	//if (coop->value)
+	//	ent->client->resp.score = ent->client->pers.score;
 }
 
 
@@ -1057,7 +1057,7 @@ void spectator_respawn (edict_t *ent)
 	}
 
 	// clear score on respawn
-	ent->client->pers.score = ent->client->resp.score = 0;
+	//ent->client->pers.score = ent->client->resp.score = 0;
 
 	ent->svflags &= ~SVF_NOCLIENT;
 	PutClientInServer (ent);

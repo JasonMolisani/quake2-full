@@ -899,6 +899,18 @@ void Cmd_PlayerList_f(edict_t *ent)
 	gi.cprintf(ent, PRINT_HIGH, "%s", text);
 }
 
+void Cmd_Start_King_Of_The_Hill_f(edict_t *ent)
+{
+	edict_t *KOH_ring;
+
+	// These values are meant to be used for q2dm1 "The Edge"
+	KOH_ring = G_Spawn();
+	KOH_ring->s.origin[0] = 1280.5;
+	KOH_ring->s.origin[1] = 639.25;
+	KOH_ring->s.origin[2] = 472.125;
+	SP_func_hill(KOH_ring);
+}
+
 
 /*
 =================
@@ -987,6 +999,8 @@ void ClientCommand (edict_t *ent)
 		Cmd_Wave_f (ent);
 	else if (Q_stricmp(cmd, "playerlist") == 0)
 		Cmd_PlayerList_f(ent);
+	else if (Q_stricmp(cmd, "startKOH") == 0)
+		Cmd_Start_King_Of_The_Hill_f(ent);
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }

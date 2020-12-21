@@ -2046,3 +2046,42 @@ void SP_func_killbox (edict_t *ent)
 	ent->svflags = SVF_NOCLIENT;
 }
 
+
+
+/*QUAKED func_hill (1 0 0) ?
+Increases the score of players inside
+*/
+void score_hill(edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf)
+{
+	if (!other->client)
+		return;
+	other->client->resp.score += 1;
+	// draw the teleport splash at source and on the player
+	self->owner->s.event = EV_PLAYER_TELEPORT;
+	other->s.event = EV_PLAYER_TELEPORT;
+}
+
+void SP_func_hill(edict_t *ent)
+{
+
+	edict_t		*trig;
+
+	gi.setmodel(ent, "models/objects/dmspot/tris.md2");
+	ent->s.skinnum = 1;
+	ent->s.effects = EF_TELEPORTER;
+	ent->s.sound = gi.soundindex("world/amb10.wav");
+	ent->solid = SOLID_BBOX;
+
+	VectorSet(ent->mins, -32, -32, -24);
+	VectorSet(ent->maxs, 32, 32, -16);
+	gi.linkentity(ent);
+
+	trig = G_Spawn();
+	trig->touch = score_hill;
+	trig->solid = SOLID_TRIGGER;
+	trig->owner = ent;
+	VectorCopy(ent->s.origin, trig->s.origin);
+	VectorSet(trig->mins, -8, -8, 8);
+	VectorSet(trig->maxs, 8, 8, 24);
+	gi.linkentity(trig);
+}
