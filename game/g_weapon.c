@@ -290,9 +290,38 @@ Shoots shotgun pellets.  Used by shotgun and super shotgun.
 void fire_shotgun (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick, int hspread, int vspread, int count, int mod)
 {
 	int		i;
-
-	for (i = 0; i < count; i++)
-		fire_lead (self, start, aimdir, damage, kick, TE_SHOTGUN, hspread, vspread, mod);
+	int angle_lr;
+	vec3_t modified_start;
+	vec3_t modified_aim;
+	if (mod == MOD_SSHOTGUN)
+	{
+		for (i = 0; i < count; i++)
+		{
+			modified_start[0] = start[0];
+			modified_start[1] = start[1];
+			modified_start[2] = start[2] + crandom()*(vspread / 500.0) * 5;
+			angle_lr = crandom()*(hspread / 1000.0)*30;
+			modified_aim[0] = cos(angle_lr * 2 * M_PI / 360)*aimdir[0] - sin(angle_lr * 2 * M_PI / 360)*aimdir[1];
+			modified_aim[1] = sin(angle_lr * 2 * M_PI / 360)*aimdir[0] + cos(angle_lr * 2 * M_PI / 360)*aimdir[1];
+			modified_aim[2] = aimdir[2];
+			fire_blaster(self, modified_start, modified_aim, damage, 500, EF_BLASTER, false);
+		}
+	}
+	else if (mod == MOD_SHOTGUN)
+	{
+		for (i = 0; i < count; i++)
+		{
+			modified_start[0] = start[0] + crandom()*(hspread / 500.0) * 5;
+			modified_start[1] = start[1] + crandom()*(hspread / 500.0) * 5;
+			modified_start[2] = start[2] + crandom()*(vspread / 500.0) * 5;
+			fire_blaster(self, modified_start, aimdir, damage, 500, EF_BLASTER, false);
+		}
+	}
+	else
+	{
+		for (i = 0; i < count; i++)
+			fire_lead(self, start, aimdir, damage, kick, TE_SHOTGUN, hspread, vspread, mod);
+	}
 }
 
 

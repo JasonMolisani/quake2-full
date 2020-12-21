@@ -819,6 +819,7 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 	vec3_t  forward_right, forward_left;
 	vec3_t	start;
 	vec3_t	offset;
+	int angle_lr = 10; // angle in degrees between the main arrow and side arrows of multishot crossbow
 
 	if (is_quad)
 		damage *= 4;
@@ -832,12 +833,12 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 	if (hyper)
 	{
 		fire_blaster(ent, start, forward, damage, 1000, effect, hyper);
-		forward_right[0] = 0.985*forward[0] - 0.174*forward[1];
-		forward_right[1] = 0.174*forward[0] + 0.985*forward[1];
+		forward_right[0] = cos(angle_lr * 2 * M_PI / 360)*forward[0] - sin(angle_lr * 2 * M_PI / 360)*forward[1];
+		forward_right[1] = sin(angle_lr * 2 * M_PI / 360)*forward[0] + cos(angle_lr * 2 * M_PI / 360)*forward[1];
 		forward_right[2] = forward[2];
 		fire_blaster(ent, start, forward_right, damage, 1000, effect, hyper);
-		forward_left[0] = 0.985*forward[0] + 0.174*forward[1];
-		forward_left[1] = -0.174*forward[0] + 0.985*forward[1];
+		forward_left[0] = cos(angle_lr * 2 * M_PI / 360)*forward[0] + sin(angle_lr * 2 * M_PI / 360)*forward[1];
+		forward_left[1] = -sin(angle_lr * 2 * M_PI / 360)*forward[0] + cos(angle_lr * 2 * M_PI / 360)*forward[1];
 		forward_left[2] = forward[2];
 		fire_blaster(ent, start, forward_left, damage, 1000, effect, hyper);
 	}
@@ -1199,7 +1200,7 @@ void weapon_shotgun_fire (edict_t *ent)
 	vec3_t		start;
 	vec3_t		forward, right;
 	vec3_t		offset;
-	int			damage = 4;
+	int			damage = 2;
 	int			kick = 8;
 
 	if (ent->client->ps.gunframe == 9)
@@ -1223,9 +1224,9 @@ void weapon_shotgun_fire (edict_t *ent)
 	}
 
 	if (deathmatch->value)
-		fire_shotgun (ent, start, forward, damage, kick, 500, 500, DEFAULT_DEATHMATCH_SHOTGUN_COUNT, MOD_SHOTGUN);
+		fire_shotgun (ent, start, forward, damage, kick, 500, 500, 32, MOD_SHOTGUN);
 	else
-		fire_shotgun (ent, start, forward, damage, kick, 500, 500, DEFAULT_SHOTGUN_COUNT, MOD_SHOTGUN);
+		fire_shotgun (ent, start, forward, damage, kick, 500, 500, 32, MOD_SHOTGUN);
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
@@ -1255,7 +1256,7 @@ void weapon_supershotgun_fire (edict_t *ent)
 	vec3_t		forward, right;
 	vec3_t		offset;
 	vec3_t		v;
-	int			damage = 6;
+	int			damage = 3;
 	int			kick = 12;
 
 	AngleVectors (ent->client->v_angle, forward, right, NULL);
@@ -1276,10 +1277,10 @@ void weapon_supershotgun_fire (edict_t *ent)
 	v[YAW]   = ent->client->v_angle[YAW] - 5;
 	v[ROLL]  = ent->client->v_angle[ROLL];
 	AngleVectors (v, forward, NULL, NULL);
-	fire_shotgun (ent, start, forward, damage, kick, DEFAULT_SHOTGUN_HSPREAD, DEFAULT_SHOTGUN_VSPREAD, DEFAULT_SSHOTGUN_COUNT/2, MOD_SSHOTGUN);
+	fire_shotgun (ent, start, forward, damage, kick, DEFAULT_SHOTGUN_HSPREAD, DEFAULT_SHOTGUN_VSPREAD, 32, MOD_SSHOTGUN);
 	v[YAW]   = ent->client->v_angle[YAW] + 5;
 	AngleVectors (v, forward, NULL, NULL);
-	fire_shotgun (ent, start, forward, damage, kick, DEFAULT_SHOTGUN_HSPREAD, DEFAULT_SHOTGUN_VSPREAD, DEFAULT_SSHOTGUN_COUNT/2, MOD_SSHOTGUN);
+	fire_shotgun (ent, start, forward, damage, kick, DEFAULT_SHOTGUN_HSPREAD, DEFAULT_SHOTGUN_VSPREAD, 32, MOD_SSHOTGUN);
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
