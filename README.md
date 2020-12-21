@@ -23,13 +23,13 @@ add (not the space between the existing closing quote and what you add): `" +set
 ## Weapon changes
 The weapons in here have been changed to imitate fantasy weapons and spells
 1. Blaster -> CrossBow
-2. Shotgun -> Flame blast (TBD)
-3. Super Shotgun -> Flame wave (TBD)
+2. Shotgun -> Flame blast
+3. Super Shotgun -> Flame wave
 4. Machine Gun
 5. Chain Gun
-6. Grenade Launcher -> ?
-7. Rocket Launcher -> Poison field (TBD)
+6. Grenade Launcher -> Summon monster
+7. Rocket Launcher -> Fireball
 8. HyperBlaster -> Triple Crossbow
-9. Rail Gun
-10. BFG10K -> ? (not on map?)
-11. Grenades -> Summon monster
+9. Rail Gun -> Dispel
+10. BFG10K -> Unchanged? (not on map?)
+11. Grenades -> different buffs?
